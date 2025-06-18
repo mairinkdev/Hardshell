@@ -8,7 +8,7 @@
 [![Go Version](https://img.shields.io/github/go-mod/go-version/mairinkdev/Hardshell)](https://github.com/mairinkdev/Hardshell)
 [![License](https://img.shields.io/github/license/mairinkdev/Hardshell)](https://github.com/mairinkdev/Hardshell/blob/main/LICENSE)
 
-<img src="https://raw.githubusercontent.com/mairinkdev/Hardshell/logo.png" alt="Hardshell Logo" width="250">
+<img src="https://raw.githubusercontent.com/mairinkdev/Hardshell/refs/heads/main/logo.png" alt="Hardshell Logo" width="250">
 
 </div>
 
