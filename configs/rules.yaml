@@ -1,0 +1,158 @@
+# Regras de hardening do Hardshell
+# Este arquivo contém regras customizáveis para verificação de segurança
+
+# Regras para SSH
+ssh:
+  # PermitRootLogin: não permitir login direto como root
+  - key: "PermitRootLogin"
+    recommended_value: "no"
+    severity: "CRITICAL"
+    description: "Login direto como root deve ser desabilitado"
+
+  # Protocol: usar apenas SSH versão 2
+  - key: "Protocol"
+    recommended_value: "2"
+    severity: "CRITICAL"
+    description: "Apenas o protocolo SSH 2 deve ser permitido (SSH 1 é inseguro)"
+
+  # PasswordAuthentication: desabilitar autenticação por senha
+  - key: "PasswordAuthentication"
+    recommended_value: "no"
+    severity: "WARNING"
+    description: "Autenticação por senha deve ser desabilitada, prefira chaves SSH"
+
+  # PermitEmptyPasswords: não permitir senhas vazias
+  - key: "PermitEmptyPasswords"
+    recommended_value: "no"
+    severity: "CRITICAL"
+    description: "Senhas vazias não devem ser permitidas"
+
+  # X11Forwarding: desabilitar encaminhamento X11
+  - key: "X11Forwarding"
+    recommended_value: "no"
+    severity: "WARNING"
+    description: "Encaminhamento X11 deve ser desabilitado se não for necessário"
+
+  # MaxAuthTries: limitar tentativas de autenticação
+  - key: "MaxAuthTries"
+    recommended_value: "4"
+    severity: "WARNING"
+    description: "Número máximo de tentativas de autenticação deve ser limitado"
+
+  # ClientAliveInterval: definir intervalo de keepalive
+  - key: "ClientAliveInterval"
+    recommended_value: "300"
+    severity: "INFO"
+    description: "Definir um intervalo de keepalive para detectar clientes desconectados"
+
+  # ClientAliveCountMax: limitar mensagens keepalive
+  - key: "ClientAliveCountMax"
+    recommended_value: "3"
+    severity: "INFO"
+    description: "Limitar o número de mensagens keepalive sem resposta antes de desconectar"
+
+  # LogLevel: definir nível de log detalhado
+  - key: "LogLevel"
+    recommended_value: "VERBOSE"
+    severity: "WARNING"
+    description: "Nível de log deve ser detalhado para auditoria adequada"
+
+  # UsePAM: habilitar PAM
+  - key: "UsePAM"
+    recommended_value: "yes"
+    severity: "WARNING"
+    description: "PAM deve ser habilitado para controle de acesso avançado"
+
+# Regras para sysctl
+sysctl:
+  # net.ipv4.tcp_syncookies: proteção contra SYN flood
+  - key: "net.ipv4.tcp_syncookies"
+    recommended_value: "1"
+    severity: "CRITICAL"
+    description: "SYN flood protection deve estar habilitada"
+
+  # net.ipv4.conf.all.accept_redirects: não aceitar ICMP redirects
+  - key: "net.ipv4.conf.all.accept_redirects"
+    recommended_value: "0"
+    severity: "WARNING"
+    description: "ICMP redirects não devem ser aceitos"
+
+  # net.ipv4.conf.all.send_redirects: não enviar ICMP redirects
+  - key: "net.ipv4.conf.all.send_redirects"
+    recommended_value: "0"
+    severity: "WARNING"
+    description: "ICMP redirects não devem ser enviados"
+
+  # net.ipv4.conf.all.accept_source_route: desabilitar source routing
+  - key: "net.ipv4.conf.all.accept_source_route"
+    recommended_value: "0"
+    severity: "CRITICAL"
+    description: "Source routing deve estar desabilitado"
+
+  # net.ipv4.conf.all.log_martians: registrar pacotes com endereços impossíveis
+  - key: "net.ipv4.conf.all.log_martians"
+    recommended_value: "1"
+    severity: "WARNING"
+    description: "Pacotes com endereços impossíveis devem ser registrados"
+
+  # kernel.randomize_va_space: habilitar ASLR
+  - key: "kernel.randomize_va_space"
+    recommended_value: "2"
+    severity: "CRITICAL"
+    description: "ASLR deve estar totalmente habilitado"
+
+  # fs.protected_hardlinks: proteger hard links
+  - key: "fs.protected_hardlinks"
+    recommended_value: "1"
+    severity: "CRITICAL"
+    description: "Hard links devem ser protegidos"
+
+  # fs.protected_symlinks: proteger symbolic links
+  - key: "fs.protected_symlinks"
+    recommended_value: "1"
+    severity: "CRITICAL"
+    description: "Symbolic links devem ser protegidos"
+
+# Serviços que devem ser desabilitados ou verificados
+services:
+  # Serviços inseguros (CRITICAL)
+  - name: "telnet"
+    severity: "CRITICAL"
+    description: "Serviço Telnet oferece comunicação não criptografada"
+
+  - name: "rsh"
+    severity: "CRITICAL"
+    description: "Serviço RSH é inseguro e deve ser desabilitado"
+
+  - name: "rlogin"
+    severity: "CRITICAL"
+    description: "Serviço RLogin é inseguro e deve ser desabilitado"
+
+  - name: "rexec"
+    severity: "CRITICAL"
+    description: "Serviço RExec é inseguro e deve ser desabilitado"
+
+  - name: "tftp"
+    severity: "CRITICAL"
+    description: "Serviço TFTP é inseguro e não deve ser usado em produção"
+
+  # Serviços com avisos (WARNING)
+  - name: "ftp"
+    severity: "WARNING"
+    description: "Serviço FTP transfere credenciais sem criptografia"
+
+  - name: "finger"
+    severity: "WARNING"
+    description: "Serviço Finger pode revelar informações sobre usuários"
+
+  - name: "talk"
+    severity: "WARNING"
+    description: "Serviço Talk não é criptografado e é raramente usado"
+
+  - name: "nis"
+    severity: "WARNING"
+    description: "NIS é considerado inseguro para autenticação"
+
+  - name: "xserver"
+    severity: "WARNING"
+    description: "Servidor X não deve estar executando em servidores"

@@ -1,0 +1,32 @@
+# Arquivo de configuração SSH de exemplo com configurações inseguras para testes
+# Este arquivo NÃO deve ser usado em produção!
+
+# Configurações básicas
+Port 22
+ListenAddress 0.0.0.0
+Protocol 2
+
+# Autenticação
+PermitRootLogin yes
+PasswordAuthentication yes
+PermitEmptyPasswords no
+ChallengeResponseAuthentication no
+UsePAM no
+
+# Configurações de segurança
+X11Forwarding yes
+TCPKeepAlive yes
+Compression yes
+
+# Configurações de log
+SyslogFacility AUTH
+LogLevel INFO
+
+# Configurações de timeout
+LoginGraceTime 120
+ClientAliveInterval 0
+ClientAliveCountMax 3
+
+# Configurações de ambiente
+AcceptEnv LANG LC_*
+PrintMotd no
